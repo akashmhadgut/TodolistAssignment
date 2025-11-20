@@ -25,18 +25,37 @@ export default function Register() {
     setError(null)
     setFieldErrors({})
 
+    // --- FRONTEND VALIDATION ---
+
+    // empty fields
     if (!name || !email || !password || !passwordConfirm) {
-      setError('Please fill all fields')
+      setError("Please fill all fields")
       return
     }
 
+    // password length check
+    if (password.trim().length < 6) {
+      setFieldErrors(prev => ({
+        ...prev,
+        password: "Password must be at least 6 characters"
+      }))
+      setError("Please fix the errors below")
+      return
+    }
+
+    // confirm password match
     if (password !== passwordConfirm) {
-      setError('Passwords do not match')
+      setFieldErrors(prev => ({
+        ...prev,
+        passwordConfirm: "Passwords do not match"
+      }))
+      setError("Please fix the errors below")
       return
     }
 
     try {
       setLoading(true)
+
       const res = await API.post('/auth/register', {
         name, email, password, passwordConfirm
       })
@@ -48,9 +67,9 @@ export default function Register() {
         const errs = {}
         err.response.data.errors.forEach(e => { errs[e.field] = e.message })
         setFieldErrors(errs)
-        setError('Please fix the errors below')
+        setError("Please fix the errors below")
       } else {
-        setError(err?.response?.data?.message || 'Failed to register')
+        setError(err?.response?.data?.message || "Failed to register")
       }
     } finally {
       setLoading(false)
@@ -60,15 +79,15 @@ export default function Register() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-gray-200 px-4">
       <div className="w-full max-w-md">
-        
+
         {/* CARD */}
         <div className="bg-white rounded-2xl shadow-xl p-8 transform transition-all">
-          
+
           <h2 className="text-3xl font-bold text-center mb-1 text-blue-700">Create Account</h2>
           <p className="text-center text-gray-600 mb-6">Join us and start your journey!</p>
 
           <form onSubmit={submit} className="space-y-4">
-            
+
             {/* General Error */}
             {error && (
               <div className="text-red-600 bg-red-50 p-2 rounded text-center font-medium mb-3">
@@ -81,7 +100,7 @@ export default function Register() {
               <label className="block mb-1 font-semibold text-gray-700">Name</label>
               <input
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-300 transition 
-                  ${fieldErrors.name ? 'border-red-500' : 'border-gray-300'}`}
+                ${fieldErrors.name ? "border-red-500" : "border-gray-300"}`}
                 placeholder="Your full name"
                 value={name}
                 onChange={e => setName(e.target.value)}
@@ -95,7 +114,7 @@ export default function Register() {
               <label className="block mb-1 font-semibold text-gray-700">Email</label>
               <input
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-300 transition 
-                  ${fieldErrors.email ? 'border-red-500' : 'border-gray-300'}`}
+                ${fieldErrors.email ? "border-red-500" : "border-gray-300"}`}
                 placeholder="you@example.com"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
@@ -110,7 +129,7 @@ export default function Register() {
               <input
                 type="password"
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-300 transition 
-                  ${fieldErrors.password ? 'border-red-500' : 'border-gray-300'}`}
+                ${fieldErrors.password ? "border-red-500" : "border-gray-300"}`}
                 placeholder="Create a password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
@@ -125,7 +144,7 @@ export default function Register() {
               <input
                 type="password"
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-300 transition 
-                  ${fieldErrors.passwordConfirm ? 'border-red-500' : 'border-gray-300'}`}
+                ${fieldErrors.passwordConfirm ? "border-red-500" : "border-gray-300"}`}
                 placeholder="Confirm your password"
                 value={passwordConfirm}
                 onChange={e => setPasswordConfirm(e.target.value)}
@@ -141,7 +160,7 @@ export default function Register() {
               disabled={loading}
               className="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-3 rounded-lg shadow disabled:opacity-70"
             >
-              {loading ? 'Registering...' : 'Register'}
+              {loading ? "Registering..." : "Register"}
             </button>
           </form>
 
