@@ -1,0 +1,14 @@
+PS C:\FullStack__New\Project\Minitasks\assignment\backend> npm run dev
+
+> minitasks-backend@1.0.0 dev
+> nodemon server.js
+
+[nodemon] 2.0.22
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,json
+[nodemon] starting `node server.js`
+(node:23836) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Connected to MongoDB
+Server running on port 5000
